@@ -307,9 +307,9 @@ const HeroSection = () => {
             </h1>
             
             <p style={styles.subtitle}>
-              Syntra delivers a complete, school-branded platform that revolutionizes 
-              CBT exams, academic analytics, and student performance tracking—designed 
-              specifically for the Nigerian education system.
+              Give your school its own custom learning platform. Run computer-based tests, 
+              track student grades automatically, and get instant reports—all under your 
+              school's name and logo. No monthly fees, ever.
             </p>
             
             <div style={styles.ctaButtons}>
@@ -317,7 +317,7 @@ const HeroSection = () => {
                 style={{ ...styles.buttonBase, ...styles.primaryButton }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                onClick={() => window.open('#demo', '_self')}
+                onClick={() => window.open('https://wa.me/message/ELEFE6DTGLDJG1', '_self')}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"></path>
@@ -329,7 +329,7 @@ const HeroSection = () => {
                 style={{ ...styles.buttonBase, ...styles.secondaryButton }}
                 onMouseEnter={handleSecondaryHover}
                 onMouseLeave={handleSecondaryLeave}
-                onClick={() => window.open('#video', '_self')}
+                onClick={() => window.open('https://drive.google.com/file/d/1K6bbv4JYqN9Wn3bZqL_e9BqYZZYl4A8Q/view?usp=sharing', '_self')}
               >
                 <svg style={styles.playIcon} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
