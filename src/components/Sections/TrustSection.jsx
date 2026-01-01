@@ -1,256 +1,56 @@
 import { useState, useEffect, useRef } from 'react';
 
-const trustStyles = {
-  section: {
-    position: 'relative',
-    padding: '60px 0',
-    backgroundColor: '#FFFFFF',
-    overflow: 'hidden',
-  },
-  backgroundPattern: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: `
-      linear-gradient(135deg, rgba(75, 83, 32, 0.03) 0%, transparent 50%),
-      linear-gradient(225deg, rgba(107, 124, 58, 0.03) 0%, transparent 50%)
-    `,
-    zIndex: 0,
-  },
-  container: {
-    maxWidth: '1100px',
-    margin: '0 auto',
-    padding: '0 24px',
-    position: 'relative',
-    zIndex: 1,
-  },
-  header: {
-    textAlign: 'center',
-    marginBottom: '40px',
-  },
-  badge: {
-    display: 'inline-block',
-    backgroundColor: 'rgba(75, 83, 32, 0.1)',
-    color: '#4B5320',
-    padding: '6px 18px',
-    borderRadius: '50px',
-    fontSize: '13px',
-    fontWeight: '600',
-    marginBottom: '16px',
-    letterSpacing: '0.5px',
-    border: '1px solid rgba(75, 83, 32, 0.2)',
-  },
-  title: {
-    fontSize: 'clamp(26px, 3vw, 36px)',
-    fontWeight: '700',
-    color: '#2C3E50',
-    marginBottom: '16px',
-    lineHeight: '1.2',
-  },
-  accent: {
-    color: '#4B5320',
-  },
-  subtitle: {
-    fontSize: 'clamp(14px, 1.6vw, 16px)',
-    color: '#5D6D7E',
-    maxWidth: '600px',
-    margin: '0 auto',
-    lineHeight: '1.6',
-  },
-  trustPoints: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '25px',
-    marginBottom: '45px',
-  },
-  trustCard: {
-    backgroundColor: 'white',
-    borderRadius: '14px',
-    border: '1px solid rgba(0,0,0,0.05)',
-    boxShadow: '0 6px 20px rgba(0,0,0,0.04)',
-    padding: '30px 25px',
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    cursor: 'pointer',
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  cardGlow: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: 'linear-gradient(135deg, rgba(75, 83, 32, 0.03) 0%, rgba(107, 124, 58, 0.03) 100%)',
-    opacity: 0,
-    transition: 'opacity 0.3s ease',
-    zIndex: 0,
-  },
-  cardContent: {
-    position: 'relative',
-    zIndex: 1,
-  },
-  cardIcon: {
-    width: '48px',
-    height: '48px',
-    borderRadius: '10px',
-    backgroundColor: 'rgba(75, 83, 32, 0.1)',
-    color: '#4B5320',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '22px',
-    marginBottom: '20px',
-    transition: 'all 0.3s ease',
-  },
-  cardTitle: {
-    fontSize: '17px',
-    fontWeight: '700',
-    color: '#2C3E50',
-    marginBottom: '12px',
-    lineHeight: '1.3',
-  },
-  cardDescription: {
-    fontSize: '13px',
-    color: '#5D6D7E',
-    lineHeight: '1.6',
-  },
-  metricsContainer: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '20px',
-    marginBottom: '45px',
-  },
-  metricCard: {
-    backgroundColor: 'white',
-    borderRadius: '14px',
-    border: '1px solid rgba(0,0,0,0.05)',
-    boxShadow: '0 6px 20px rgba(0,0,0,0.04)',
-    padding: '25px',
-    textAlign: 'center',
-    transition: 'all 0.3s ease',
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  metricGlow: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: 'linear-gradient(135deg, rgba(75, 83, 32, 0.03) 0%, rgba(107, 124, 58, 0.03) 100%)',
-    opacity: 0,
-    transition: 'opacity 0.3s ease',
-    zIndex: 0,
-  },
-  metricContent: {
-    position: 'relative',
-    zIndex: 1,
-  },
-  metricValue: {
-    fontSize: 'clamp(32px, 3vw, 40px)',
-    fontWeight: '800',
-    color: '#4B5320',
-    marginBottom: '8px',
-    lineHeight: '1.1',
-  },
-  metricLabel: {
-    fontSize: '13px',
-    color: '#5D6D7E',
-    fontWeight: '500',
-    lineHeight: '1.4',
-  },
-  testimonialsContainer: {
-    backgroundColor: 'rgba(75, 83, 32, 0.03)',
-    borderRadius: '16px',
-    border: '1px solid rgba(75, 83, 32, 0.1)',
-    padding: '35px 30px',
-    marginTop: '35px',
-  },
-  testimonialsHeader: {
-    textAlign: 'center',
-    marginBottom: '30px',
-  },
-  testimonialsTitle: {
-    fontSize: '20px',
-    fontWeight: '700',
-    color: '#2C3E50',
-    marginBottom: '10px',
-  },
-  testimonialsSubtitle: {
-    fontSize: '14px',
-    color: '#5D6D7E',
-    maxWidth: '500px',
-    margin: '0 auto',
-    lineHeight: '1.6',
-  },
-  testimonialsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '25px',
-  },
-  testimonialCard: {
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    padding: '25px',
-    borderLeft: '3px solid #4B5320',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
-  },
-  testimonialQuote: {
-    fontSize: '14px',
-    color: '#5D6D7E',
-    lineHeight: '1.6',
-    fontStyle: 'italic',
-    marginBottom: '18px',
-    position: 'relative',
-  },
-  quoteMark: {
-    position: 'absolute',
-    top: '-8px',
-    left: '-8px',
-    fontSize: '24px',
-    color: '#4B5320',
-    opacity: 0.2,
-    fontFamily: 'serif',
-  },
-  testimonialAuthor: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  authorAvatar: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    backgroundColor: 'rgba(75, 83, 32, 0.1)',
-    marginRight: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#4B5320',
-    fontWeight: '600',
-    fontSize: '16px',
-  },
-  authorInfo: {},
-  authorName: {
-    fontSize: '14px',
-    fontWeight: '600',
-    color: '#2C3E50',
-    marginBottom: '3px',
-  },
-  authorRole: {
-    fontSize: '12px',
-    color: '#5D6D7E',
-  },
-};
-
 const TrustSection = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [hoveredMetric, setHoveredMetric] = useState(null);
   const [visibleElements, setVisibleElements] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(0);
   const cardsRef = useRef([]);
   const metricsRef = useRef([]);
   const testimonialsRef = useRef([]);
+
+  const isMobile = windowWidth <= 768;
+  const isTablet = windowWidth > 768 && windowWidth <= 1024;
+  const isSmallMobile = windowWidth <= 480;
+
+  useEffect(() => {
+    const updateWindowWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    updateWindowWidth();
+    window.addEventListener('resize', updateWindowWidth);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = [
+              ...cardsRef.current,
+              ...metricsRef.current,
+              ...testimonialsRef.current
+            ].indexOf(entry.target);
+            
+            if (index !== -1) {
+              setTimeout(() => {
+                setVisibleElements((prev) => [...new Set([...prev, index])]);
+              }, index * 50);
+            }
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '20px' }
+    );
+
+    [...cardsRef.current, ...metricsRef.current, ...testimonialsRef.current].forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateWindowWidth);
+    };
+  }, []);
 
   const trustPoints = [
     {
@@ -292,34 +92,344 @@ const TrustSection = () => {
     },
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = [
-              ...cardsRef.current,
-              ...metricsRef.current,
-              ...testimonialsRef.current
-            ].indexOf(entry.target);
-            
-            if (index !== -1) {
-              setTimeout(() => {
-                setVisibleElements((prev) => [...new Set([...prev, index])]);
-              }, index * 50);
-            }
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '20px' }
-    );
-
-    [...cardsRef.current, ...metricsRef.current, ...testimonialsRef.current].forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  // Styles with responsive variations
+  const styles = {
+    section: {
+      position: 'relative',
+      padding: isSmallMobile ? '40px 0' : 
+               isMobile ? '50px 0' : 
+               '60px 0',
+      backgroundColor: '#FFFFFF',
+      overflow: 'hidden',
+    },
+    
+    backgroundPattern: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: `
+        linear-gradient(135deg, rgba(75, 83, 32, 0.03) 0%, transparent 50%),
+        linear-gradient(225deg, rgba(107, 124, 58, 0.03) 0%, transparent 50%)
+      `,
+      zIndex: 0,
+    },
+    
+    container: {
+      maxWidth: '1100px',
+      margin: '0 auto',
+      padding: isSmallMobile ? '0 12px' : 
+               isMobile ? '0 16px' : 
+               '0 24px',
+      position: 'relative',
+      zIndex: 1,
+    },
+    
+    header: {
+      textAlign: 'center',
+      marginBottom: isSmallMobile ? '30px' : 
+                   isMobile ? '35px' : 
+                   '40px',
+    },
+    
+    badge: {
+      display: 'inline-block',
+      backgroundColor: 'rgba(75, 83, 32, 0.1)',
+      color: '#4B5320',
+      padding: isSmallMobile ? '5px 14px' : '6px 18px',
+      borderRadius: '50px',
+      fontSize: isSmallMobile ? '11px' : '13px',
+      fontWeight: '600',
+      marginBottom: isSmallMobile ? '12px' : '16px',
+      letterSpacing: '0.5px',
+      border: '1px solid rgba(75, 83, 32, 0.2)',
+    },
+    
+    title: {
+      fontSize: isSmallMobile ? '22px' : 
+               isMobile ? '24px' : 
+               'clamp(26px, 3vw, 36px)',
+      fontWeight: '700',
+      color: '#2C3E50',
+      marginBottom: isSmallMobile ? '12px' : '16px',
+      lineHeight: '1.2',
+      padding: '0 10px',
+    },
+    
+    accent: {
+      color: '#4B5320',
+    },
+    
+    subtitle: {
+      fontSize: isSmallMobile ? '13px' : 
+               isMobile ? '14px' : 
+               'clamp(14px, 1.6vw, 16px)',
+      color: '#5D6D7E',
+      maxWidth: isMobile ? '100%' : '600px',
+      margin: '0 auto',
+      lineHeight: '1.6',
+      padding: '0 10px',
+    },
+    
+    trustPoints: {
+      display: 'grid',
+      gridTemplateColumns: isSmallMobile ? '1fr' : 
+                          isMobile ? '1fr' : 
+                          isTablet ? 'repeat(2, 1fr)' : 
+                          'repeat(3, 1fr)',
+      gap: isSmallMobile ? '20px' : 
+           isMobile ? '20px' : 
+           '25px',
+      marginBottom: isSmallMobile ? '30px' : 
+                   isMobile ? '35px' : 
+                   '45px',
+      maxWidth: isSmallMobile ? '400px' : 
+                isMobile ? '500px' : 
+                '100%',
+      marginLeft: isSmallMobile ? 'auto' : '0',
+      marginRight: isSmallMobile ? 'auto' : '0',
+    },
+    
+    trustCard: {
+      backgroundColor: 'white',
+      borderRadius: isSmallMobile ? '12px' : '14px',
+      border: '1px solid rgba(0,0,0,0.05)',
+      boxShadow: '0 6px 20px rgba(0,0,0,0.04)',
+      padding: isSmallMobile ? '25px 20px' : 
+               isMobile ? '28px 23px' : 
+               '30px 25px',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      cursor: 'pointer',
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    
+    cardGlow: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'linear-gradient(135deg, rgba(75, 83, 32, 0.03) 0%, rgba(107, 124, 58, 0.03) 100%)',
+      opacity: 0,
+      transition: 'opacity 0.3s ease',
+      zIndex: 0,
+    },
+    
+    cardContent: {
+      position: 'relative',
+      zIndex: 1,
+    },
+    
+    cardIcon: {
+      width: isSmallMobile ? '40px' : 
+             isMobile ? '44px' : 
+             '48px',
+      height: isSmallMobile ? '40px' : 
+              isMobile ? '44px' : 
+              '48px',
+      borderRadius: '10px',
+      backgroundColor: 'rgba(75, 83, 32, 0.1)',
+      color: '#4B5320',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: isSmallMobile ? '20px' : 
+                isMobile ? '21px' : 
+                '22px',
+      marginBottom: isSmallMobile ? '16px' : '20px',
+      transition: 'all 0.3s ease',
+    },
+    
+    cardTitle: {
+      fontSize: isSmallMobile ? '15px' : 
+                isMobile ? '16px' : 
+                '17px',
+      fontWeight: '700',
+      color: '#2C3E50',
+      marginBottom: isSmallMobile ? '8px' : '12px',
+      lineHeight: '1.3',
+    },
+    
+    cardDescription: {
+      fontSize: isSmallMobile ? '12px' : '13px',
+      color: '#5D6D7E',
+      lineHeight: '1.6',
+    },
+    
+    metricsContainer: {
+      display: 'grid',
+      gridTemplateColumns: isSmallMobile ? '1fr' : 
+                          isMobile ? 'repeat(2, 1fr)' : 
+                          'repeat(4, 1fr)',
+      gap: isSmallMobile ? '15px' : 
+           isMobile ? '15px' : 
+           '20px',
+      marginBottom: isSmallMobile ? '30px' : 
+                   isMobile ? '35px' : 
+                   '45px',
+      maxWidth: isSmallMobile ? '300px' : 
+                isMobile ? '500px' : 
+                '100%',
+      marginLeft: isSmallMobile ? 'auto' : '0',
+      marginRight: isSmallMobile ? 'auto' : '0',
+    },
+    
+    metricCard: {
+      backgroundColor: 'white',
+      borderRadius: isSmallMobile ? '12px' : '14px',
+      border: '1px solid rgba(0,0,0,0.05)',
+      boxShadow: '0 6px 20px rgba(0,0,0,0.04)',
+      padding: isSmallMobile ? '20px' : 
+               isMobile ? '22px' : 
+               '25px',
+      textAlign: 'center',
+      transition: 'all 0.3s ease',
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    
+    metricGlow: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'linear-gradient(135deg, rgba(75, 83, 32, 0.03) 0%, rgba(107, 124, 58, 0.03) 100%)',
+      opacity: 0,
+      transition: 'opacity 0.3s ease',
+      zIndex: 0,
+    },
+    
+    metricContent: {
+      position: 'relative',
+      zIndex: 1,
+    },
+    
+    metricValue: {
+      fontSize: isSmallMobile ? '26px' : 
+                isMobile ? '28px' : 
+                'clamp(32px, 3vw, 40px)',
+      fontWeight: '800',
+      color: '#4B5320',
+      marginBottom: isSmallMobile ? '6px' : '8px',
+      lineHeight: '1.1',
+    },
+    
+    metricLabel: {
+      fontSize: isSmallMobile ? '11px' : '13px',
+      color: '#5D6D7E',
+      fontWeight: '500',
+      lineHeight: '1.4',
+    },
+    
+    testimonialsContainer: {
+      backgroundColor: 'rgba(75, 83, 32, 0.03)',
+      borderRadius: isSmallMobile ? '14px' : '16px',
+      border: '1px solid rgba(75, 83, 32, 0.1)',
+      padding: isSmallMobile ? '25px 20px' : 
+               isMobile ? '30px 25px' : 
+               '35px 30px',
+      marginTop: isSmallMobile ? '25px' : 
+                isMobile ? '30px' : 
+                '35px',
+    },
+    
+    testimonialsHeader: {
+      textAlign: 'center',
+      marginBottom: isSmallMobile ? '25px' : '30px',
+    },
+    
+    testimonialsTitle: {
+      fontSize: isSmallMobile ? '18px' : 
+                isMobile ? '19px' : 
+                '20px',
+      fontWeight: '700',
+      color: '#2C3E50',
+      marginBottom: isSmallMobile ? '8px' : '10px',
+    },
+    
+    testimonialsSubtitle: {
+      fontSize: isSmallMobile ? '13px' : '14px',
+      color: '#5D6D7E',
+      maxWidth: '500px',
+      margin: '0 auto',
+      lineHeight: '1.6',
+    },
+    
+    testimonialsGrid: {
+      display: 'grid',
+      gridTemplateColumns: isSmallMobile ? '1fr' : 
+                          isMobile ? '1fr' : 
+                          'repeat(2, 1fr)',
+      gap: isSmallMobile ? '20px' : 
+           isMobile ? '20px' : 
+           '25px',
+    },
+    
+    testimonialCard: {
+      backgroundColor: 'white',
+      borderRadius: isSmallMobile ? '10px' : '12px',
+      padding: isSmallMobile ? '20px' : 
+               isMobile ? '22px' : 
+               '25px',
+      borderLeft: '3px solid #4B5320',
+      boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
+    },
+    
+    testimonialQuote: {
+      fontSize: isSmallMobile ? '13px' : '14px',
+      color: '#5D6D7E',
+      lineHeight: '1.6',
+      fontStyle: 'italic',
+      marginBottom: isSmallMobile ? '15px' : '18px',
+      position: 'relative',
+    },
+    
+    quoteMark: {
+      position: 'absolute',
+      top: '-8px',
+      left: '-8px',
+      fontSize: '24px',
+      color: '#4B5320',
+      opacity: 0.2,
+      fontFamily: 'serif',
+    },
+    
+    testimonialAuthor: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    
+    authorAvatar: {
+      width: isSmallMobile ? '36px' : '40px',
+      height: isSmallMobile ? '36px' : '40px',
+      borderRadius: '50%',
+      backgroundColor: 'rgba(75, 83, 32, 0.1)',
+      marginRight: isSmallMobile ? '10px' : '12px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#4B5320',
+      fontWeight: '600',
+      fontSize: isSmallMobile ? '14px' : '16px',
+    },
+    
+    authorInfo: {},
+    
+    authorName: {
+      fontSize: isSmallMobile ? '13px' : '14px',
+      fontWeight: '600',
+      color: '#2C3E50',
+      marginBottom: '2px',
+    },
+    
+    authorRole: {
+      fontSize: isSmallMobile ? '11px' : '12px',
+      color: '#5D6D7E',
+    },
+  };
 
   const handleCardMouseEnter = (index) => {
     setHoveredCard(index);
@@ -338,29 +448,29 @@ const TrustSection = () => {
   };
 
   return (
-    <section style={trustStyles.section} id="trust">
-      <div style={trustStyles.backgroundPattern}></div>
+    <section style={styles.section} id="trust">
+      <div style={styles.backgroundPattern}></div>
       
-      <div style={trustStyles.container}>
-        <div style={trustStyles.header}>
-          <div style={trustStyles.badge}>
+      <div style={styles.container}>
+        <div style={styles.header}>
+          <div style={styles.badge}>
             PROVEN RELIABILITY
           </div>
-          <h2 style={trustStyles.title}>
-            Trusted by <span style={trustStyles.accent}>Nigerian Schools</span>
+          <h2 style={styles.title}>
+            Trusted by <span style={styles.accent}>Nigerian Schools</span>
           </h2>
-          <p style={trustStyles.subtitle}>
+          <p style={styles.subtitle}>
             Built on real experience with Nigerian secondary education requirements and standards.
           </p>
         </div>
 
-        <div style={trustStyles.trustPoints}>
+        <div style={styles.trustPoints}>
           {trustPoints.map((point, index) => (
             <div 
               key={index}
               ref={(el) => (cardsRef.current[index] = el)}
               style={{
-                ...trustStyles.trustCard,
+                ...styles.trustCard,
                 transform: visibleElements.includes(index)
                   ? hoveredCard === index
                     ? 'translateY(-6px)'
@@ -377,26 +487,26 @@ const TrustSection = () => {
             >
               <div 
                 style={{
-                  ...trustStyles.cardGlow,
+                  ...styles.cardGlow,
                   opacity: hoveredCard === index ? 1 : 0,
                 }}
               />
               
-              <div style={trustStyles.cardContent}>
+              <div style={styles.cardContent}>
                 <div 
                   style={{
-                    ...trustStyles.cardIcon,
+                    ...styles.cardIcon,
                     transform: hoveredCard === index ? 'scale(1.1)' : 'scale(1)',
                   }}
                 >
                   {point.icon}
                 </div>
                 
-                <h3 style={trustStyles.cardTitle}>
+                <h3 style={styles.cardTitle}>
                   {point.title}
                 </h3>
                 
-                <p style={trustStyles.cardDescription}>
+                <p style={styles.cardDescription}>
                   {point.description}
                 </p>
               </div>
@@ -404,13 +514,13 @@ const TrustSection = () => {
           ))}
         </div>
 
-        <div style={trustStyles.metricsContainer}>
+        <div style={styles.metricsContainer}>
           {metrics.map((metric, index) => (
             <div 
               key={index}
               ref={(el) => (metricsRef.current[index] = el)}
               style={{
-                ...trustStyles.metricCard,
+                ...styles.metricCard,
                 transform: visibleElements.includes(index + 3)
                   ? hoveredMetric === index
                     ? 'translateY(-4px)'
@@ -427,16 +537,16 @@ const TrustSection = () => {
             >
               <div 
                 style={{
-                  ...trustStyles.metricGlow,
+                  ...styles.metricGlow,
                   opacity: hoveredMetric === index ? 1 : 0,
                 }}
               />
               
-              <div style={trustStyles.metricContent}>
-                <div style={trustStyles.metricValue}>
+              <div style={styles.metricContent}>
+                <div style={styles.metricValue}>
                   {metric.value}
                 </div>
-                <div style={trustStyles.metricLabel}>
+                <div style={styles.metricLabel}>
                   {metric.label}
                 </div>
               </div>
@@ -446,44 +556,44 @@ const TrustSection = () => {
 
         <div 
           ref={(el) => (testimonialsRef.current[0] = el)}
-          style={trustStyles.testimonialsContainer}
+          style={styles.testimonialsContainer}
         >
-          <div style={trustStyles.testimonialsHeader}>
-            <h3 style={trustStyles.testimonialsTitle}>
+          <div style={styles.testimonialsHeader}>
+            <h3 style={styles.testimonialsTitle}>
               Trusted by School Leaders
             </h3>
-            <p style={trustStyles.testimonialsSubtitle}>
+            <p style={styles.testimonialsSubtitle}>
               Real feedback from educational institutions using Syntra
             </p>
           </div>
           
-          <div style={trustStyles.testimonialsGrid}>
+          <div style={styles.testimonialsGrid}>
             {testimonials.map((testimonial, index) => (
               <div 
                 key={index}
                 ref={(el) => (testimonialsRef.current[index + 1] = el)}
                 style={{
-                  ...trustStyles.testimonialCard,
+                  ...styles.testimonialCard,
                   opacity: visibleElements.includes(7 + index) ? 1 : 0,
                   transform: visibleElements.includes(7 + index) ? 'translateY(0)' : 'translateY(10px)',
                   transition: `all 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`,
                 }}
               >
-                <div style={trustStyles.testimonialQuote}>
-                  <span style={trustStyles.quoteMark}>"</span>
+                <div style={styles.testimonialQuote}>
+                  <span style={styles.quoteMark}>"</span>
                   {testimonial.quote}
                 </div>
                 
-                <div style={trustStyles.testimonialAuthor}>
-                  <div style={trustStyles.authorAvatar}>
+                <div style={styles.testimonialAuthor}>
+                  <div style={styles.authorAvatar}>
                     {testimonial.initial}
                   </div>
                   
-                  <div style={trustStyles.authorInfo}>
-                    <div style={trustStyles.authorName}>
+                  <div style={styles.authorInfo}>
+                    <div style={styles.authorName}>
                       {testimonial.author}
                     </div>
-                    <div style={trustStyles.authorRole}>
+                    <div style={styles.authorRole}>
                       {testimonial.role}
                     </div>
                   </div>
@@ -495,56 +605,15 @@ const TrustSection = () => {
       </div>
 
       <style jsx>{`
-        @media (max-width: 1024px) {
-          .trust-points {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 500px;
-            margin: 0 auto 40px;
-          }
-          
-          .metrics-container {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 400px;
-            margin: 0 auto 40px;
-          }
-        }
-        
-        @media (max-width: 768px) {
-          .section {
-            padding: 50px 0;
-          }
-          
-          .trust-points {
-            grid-template-columns: 1fr;
-            max-width: 350px;
-          }
-          
-          .metrics-container {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          
-          .testimonials-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
-          }
-          
-          .testimonials-container {
-            padding: 30px 25px;
-          }
-        }
-        
         @media (max-width: 480px) {
-          .section {
-            padding: 40px 0;
-          }
-          
-          .metrics-container {
-            grid-template-columns: 1fr;
-            max-width: 250px;
+          .author-avatar {
+            width: 32px;
+            height: 32px;
+            font-size: 13px;
           }
           
           .testimonial-card {
-            padding: 20px;
+            padding: 18px;
           }
         }
       `}</style>

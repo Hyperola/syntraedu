@@ -1,336 +1,25 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-const heroStyles = {
-  section: {
-    position: 'relative',
-    paddingTop: '80px',
-    paddingBottom: '60px',
-    minHeight: 'calc(100vh - 80px)',
-    display: 'flex',
-    alignItems: 'center',
-    overflow: 'hidden',
-    background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
-  },
-  backgroundPattern: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundImage: `radial-gradient(circle at 15% 85%, rgba(75, 83, 32, 0.03) 0%, transparent 40%),
-                      radial-gradient(circle at 85% 15%, rgba(107, 124, 58, 0.03) 0%, transparent 40%)`,
-    zIndex: 0,
-  },
-  container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '0 20px',
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '40px',
-    alignItems: 'center',
-    position: 'relative',
-    zIndex: 1,
-    width: '100%',
-  },
-  content: {
-    textAlign: 'left',
-  },
-  badge: {
-    display: 'inline-block',
-    backgroundColor: 'rgba(75, 83, 32, 0.08)',
-    color: '#4B5320',
-    padding: '6px 16px',
-    borderRadius: '50px',
-    fontSize: '14px',
-    fontWeight: '600',
-    marginBottom: '20px',
-    animation: 'float 6s ease-in-out infinite',
-    letterSpacing: '0.5px',
-  },
-  title: {
-    fontSize: 'clamp(32px, 5vw, 52px)',
-    fontWeight: '800',
-    background: 'linear-gradient(135deg, #2C3E50 0%, #4B5320 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    marginBottom: '16px',
-    lineHeight: '1.15',
-    letterSpacing: '-0.02em',
-  },
-  highlight: {
-    color: '#4B5320',
-    WebkitTextFillColor: '#4B5320',
-  },
-  subtitle: {
-    fontSize: 'clamp(16px, 2vw, 18px)',
-    color: '#5D6D7E',
-    marginBottom: '28px',
-    lineHeight: '1.6',
-    maxWidth: '100%',
-  },
-  ctaButtons: {
-    display: 'flex',
-    gap: '12px',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    marginBottom: '40px',
-  },
-  primaryButton: {
-    backgroundColor: '#4B5320',
-    color: 'white',
-    border: 'none',
-    padding: '14px 32px',
-    borderRadius: '10px',
-    fontSize: '15px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    boxShadow: '0 6px 20px rgba(75, 83, 32, 0.2)',
-    position: 'relative',
-    overflow: 'hidden',
-    flexShrink: 0,
-  },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    color: '#4B5320',
-    border: '1.5px solid rgba(75, 83, 32, 0.25)',
-    padding: '14px 28px',
-    borderRadius: '10px',
-    fontSize: '15px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    flexShrink: 0,
-  },
-  playIcon: {
-    width: '16px',
-    height: '16px',
-  },
-  metricsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '20px',
-    marginTop: '40px',
-    maxWidth: '100%',
-  },
-  metric: {
-    textAlign: 'left',
-  },
-  metricValue: {
-    fontSize: 'clamp(24px, 3vw, 28px)',
-    fontWeight: '700',
-    color: '#4B5320',
-    marginBottom: '6px',
-  },
-  metricLabel: {
-    fontSize: '13px',
-    color: '#7B8A8B',
-    fontWeight: '500',
-    letterSpacing: '0.3px',
-  },
-  imageContainer: {
-    position: 'relative',
-    borderRadius: '20px',
-    overflow: 'visible',
-    boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.15)',
-    transform: 'perspective(1000px) rotateY(-5deg)',
-    transition: 'transform 0.5s ease',
-    height: 'clamp(350px, 40vw, 450px)',
-    width: '100%',
-  },
-  floatingCard: {
-    position: 'absolute',
-    bottom: '-40px',
-    right: '-20px',
-    backgroundColor: 'white',
-    padding: '20px',
-    borderRadius: '14px',
-    boxShadow: '0 15px 35px rgba(0, 0, 0, 0.12)',
-    zIndex: 2,
-    width: 'clamp(240px, 25vw, 280px)',
-    animation: 'float 5s ease-in-out infinite',
-    border: '1px solid rgba(0, 0, 0, 0.05)',
-  },
-  cardTitle: {
-    fontSize: '15px',
-    fontWeight: '600',
-    color: '#4B5320',
-    marginBottom: '6px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-  },
-  cardText: {
-    fontSize: '13px',
-    color: '#666',
-    lineHeight: '1.5',
-  },
-  icon: {
-    width: '16px',
-    height: '16px',
-    color: '#4B5320',
-  },
-};
-
-const floatingAnimation = `
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-  }
-  
-  @media (max-width: 768px) {
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-    }
-  }
-`;
-
-// Media query styles as separate objects
-const responsiveContainer = {
-  base: heroStyles.container,
-  tablet: {
-    gridTemplateColumns: '1fr',
-    gap: '60px',
-    textAlign: 'center',
-  },
-  mobile: {
-    padding: '0 16px',
-    gap: '40px',
-  },
-};
-
-const responsiveContent = {
-  base: heroStyles.content,
-  tablet: {
-    textAlign: 'center',
-  },
-};
-
-const responsiveSubtitle = {
-  base: heroStyles.subtitle,
-  tablet: {
-    maxWidth: '80%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  mobile: {
-    fontSize: '16px',
-    maxWidth: '90%',
-  },
-};
-
-const responsiveCtaButtons = {
-  base: heroStyles.ctaButtons,
-  mobile: {
-    flexDirection: 'column',
-    gap: '16px',
-    width: '100%',
-  },
-};
-
-const responsivePrimaryButton = {
-  base: heroStyles.primaryButton,
-  mobile: {
-    width: '100%',
-    justifyContent: 'center',
-    padding: '16px 24px',
-  },
-};
-
-const responsiveSecondaryButton = {
-  base: heroStyles.secondaryButton,
-  mobile: {
-    width: '100%',
-    justifyContent: 'center',
-    padding: '16px 24px',
-  },
-};
-
-const responsiveMetricsGrid = {
-  base: heroStyles.metricsGrid,
-  tablet: {
-    maxWidth: '80%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  mobile: {
-    gridTemplateColumns: '1fr',
-    gap: '20px',
-    maxWidth: '200px',
-    margin: '40px auto 0',
-  },
-  mobileSmall: {
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '15px',
-    maxWidth: '100%',
-  },
-};
-
-const responsiveImageContainer = {
-  base: heroStyles.imageContainer,
-  tablet: {
-    transform: 'perspective(1000px) rotateY(0deg)',
-    maxWidth: '600px',
-    margin: '0 auto',
-  },
-  mobile: {
-    height: '300px',
-    transform: 'perspective(1000px) rotateY(0deg)',
-  },
-};
-
-const responsiveFloatingCard = {
-  base: heroStyles.floatingCard,
-  tablet: {
-    right: '10px',
-    bottom: '-30px',
-  },
-  mobile: {
-    position: 'relative',
-    right: 'auto',
-    bottom: 'auto',
-    marginTop: '20px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '100%',
-    maxWidth: '300px',
-    animation: 'none',
-  },
-};
-
 const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [loaded, setLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [isSmallMobile, setIsSmallMobile] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
     setLoaded(true);
     
-    const checkResponsive = () => {
-      const width = window.innerWidth;
-      setIsSmallMobile(width <= 480);
-      setIsMobile(width <= 768);
-      setIsTablet(width <= 1024 && width > 768);
+    const updateWindowWidth = () => {
+      setWindowWidth(window.innerWidth);
     };
     
-    checkResponsive();
-    window.addEventListener('resize', checkResponsive);
+    updateWindowWidth();
+    window.addEventListener('resize', updateWindowWidth);
     
-    if (!isMobile) {
+    if (windowWidth > 768) {
       const handleMouseMove = (e) => {
         setMousePosition({
-          x: (e.clientX / window.innerWidth - 0.5) * 10,
+          x: (e.clientX / windowWidth - 0.5) * 10,
           y: (e.clientY / window.innerHeight - 0.5) * 10,
         });
       };
@@ -338,27 +27,230 @@ const HeroSection = () => {
       return () => window.removeEventListener('mousemove', handleMouseMove);
     }
     
-    return () => window.removeEventListener('resize', checkResponsive);
-  }, [isMobile]);
+    return () => window.removeEventListener('resize', updateWindowWidth);
+  }, [windowWidth]);
 
-  // Helper function to merge responsive styles
-  const getResponsiveStyle = (styleObject) => {
-    let style = { ...styleObject.base };
+  const isMobile = windowWidth <= 768;
+  const isTablet = windowWidth > 768 && windowWidth <= 1024;
+  const isSmallMobile = windowWidth <= 480;
+
+  // Styles with responsive variations
+  const styles = {
+    section: {
+      position: 'relative',
+      paddingTop: isMobile ? '60px' : '80px',
+      paddingBottom: isMobile ? '40px' : '60px',
+      minHeight: isMobile ? 'auto' : 'calc(100vh - 80px)',
+      display: 'flex',
+      alignItems: 'center',
+      overflow: 'hidden',
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
+    },
     
-    if (isTablet && styleObject.tablet) {
-      style = { ...style, ...styleObject.tablet };
-    }
+    backgroundPattern: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundImage: `radial-gradient(circle at 15% 85%, rgba(75, 83, 32, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at 85% 15%, rgba(107, 124, 58, 0.03) 0%, transparent 40%)`,
+      zIndex: 0,
+    },
     
-    if (isMobile && styleObject.mobile) {
-      style = { ...style, ...styleObject.mobile };
-    }
+    container: {
+      maxWidth: '1200px',
+      margin: '0 auto',
+      padding: isSmallMobile ? '0 12px' : isMobile ? '0 16px' : '0 20px',
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+      gap: isMobile ? '30px' : '40px',
+      alignItems: 'center',
+      position: 'relative',
+      zIndex: 1,
+      width: '100%',
+    },
     
-    if (isSmallMobile && styleObject.mobileSmall) {
-      style = { ...style, ...styleObject.mobileSmall };
-    }
+    content: {
+      textAlign: isMobile ? 'center' : 'left',
+    },
     
-    return style;
+    badge: {
+      display: 'inline-block',
+      backgroundColor: 'rgba(75, 83, 32, 0.08)',
+      color: '#4B5320',
+      padding: '6px 16px',
+      borderRadius: '50px',
+      fontSize: isSmallMobile ? '12px' : '14px',
+      fontWeight: '600',
+      marginBottom: '20px',
+      animation: 'float 6s ease-in-out infinite',
+      letterSpacing: '0.5px',
+    },
+    
+    title: {
+      fontSize: isSmallMobile ? '28px' : isMobile ? '32px' : 'clamp(32px, 5vw, 52px)',
+      fontWeight: '800',
+      background: 'linear-gradient(135deg, #2C3E50 0%, #4B5320 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      marginBottom: '16px',
+      lineHeight: '1.15',
+      letterSpacing: '-0.02em',
+    },
+    
+    highlight: {
+      color: '#4B5320',
+      WebkitTextFillColor: '#4B5320',
+    },
+    
+    subtitle: {
+      fontSize: isSmallMobile ? '14px' : isMobile ? '16px' : 'clamp(16px, 2vw, 18px)',
+      color: '#5D6D7E',
+      marginBottom: '28px',
+      lineHeight: '1.6',
+      maxWidth: isMobile ? '90%' : '100%',
+      marginLeft: isMobile ? 'auto' : '0',
+      marginRight: isMobile ? 'auto' : '0',
+    },
+    
+    ctaButtons: {
+      display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
+      gap: isMobile ? '16px' : '12px',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      marginBottom: '40px',
+      width: isMobile ? '100%' : 'auto',
+    },
+    
+    buttonBase: {
+      border: 'none',
+      padding: isMobile ? '16px 24px' : '14px 32px',
+      borderRadius: '10px',
+      fontSize: '15px',
+      fontWeight: '600',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '10px',
+      flexShrink: 0,
+      width: isMobile ? '100%' : 'auto',
+    },
+    
+    primaryButton: {
+      backgroundColor: '#4B5320',
+      color: 'white',
+      boxShadow: '0 6px 20px rgba(75, 83, 32, 0.2)',
+    },
+    
+    secondaryButton: {
+      backgroundColor: 'transparent',
+      color: '#4B5320',
+      border: '1.5px solid rgba(75, 83, 32, 0.25)',
+    },
+    
+    playIcon: {
+      width: '16px',
+      height: '16px',
+    },
+    
+    metricsGrid: {
+      display: 'grid',
+      gridTemplateColumns: isSmallMobile ? 'repeat(3, 1fr)' : isMobile ? '1fr' : 'repeat(3, 1fr)',
+      gap: isMobile ? '15px' : '20px',
+      marginTop: '40px',
+      maxWidth: isMobile ? '100%' : '80%',
+      marginLeft: isMobile ? 'auto' : '0',
+      marginRight: isMobile ? 'auto' : '0',
+    },
+    
+    metric: {
+      textAlign: isMobile ? 'center' : 'left',
+    },
+    
+    metricValue: {
+      fontSize: isSmallMobile ? '22px' : isMobile ? '24px' : 'clamp(24px, 3vw, 28px)',
+      fontWeight: '700',
+      color: '#4B5320',
+      marginBottom: '6px',
+    },
+    
+    metricLabel: {
+      fontSize: isSmallMobile ? '11px' : '13px',
+      color: '#7B8A8B',
+      fontWeight: '500',
+      letterSpacing: '0.3px',
+    },
+    
+    imageContainer: {
+      position: 'relative',
+      borderRadius: '20px',
+      overflow: 'visible',
+      boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.15)',
+      transform: isMobile ? 'perspective(1000px) rotateY(0deg)' : 'perspective(1000px) rotateY(-5deg)',
+      transition: 'transform 0.5s ease',
+      height: isSmallMobile ? '250px' : isMobile ? '300px' : 'clamp(350px, 40vw, 450px)',
+      width: '100%',
+      maxWidth: isMobile ? '500px' : '100%',
+      margin: isMobile ? '0 auto' : '0',
+    },
+    
+    floatingCard: {
+      position: isMobile ? 'relative' : 'absolute',
+      bottom: isMobile ? 'auto' : '-40px',
+      right: isMobile ? 'auto' : '-20px',
+      backgroundColor: 'white',
+      padding: '20px',
+      borderRadius: '14px',
+      boxShadow: '0 15px 35px rgba(0, 0, 0, 0.12)',
+      zIndex: 2,
+      width: isSmallMobile ? '100%' : isMobile ? '280px' : 'clamp(240px, 25vw, 280px)',
+      animation: isMobile ? 'none' : 'float 5s ease-in-out infinite',
+      border: '1px solid rgba(0, 0, 0, 0.05)',
+      marginTop: isMobile ? '20px' : '0',
+      marginLeft: isMobile ? 'auto' : '0',
+      marginRight: isMobile ? 'auto' : '0',
+    },
+    
+    cardTitle: {
+      fontSize: '15px',
+      fontWeight: '600',
+      color: '#4B5320',
+      marginBottom: '6px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+    },
+    
+    cardText: {
+      fontSize: '13px',
+      color: '#666',
+      lineHeight: '1.5',
+    },
+    
+    icon: {
+      width: '16px',
+      height: '16px',
+      color: '#4B5320',
+    },
   };
+
+  const floatingAnimation = `
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    @media (max-width: 768px) {
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+      }
+    }
+  `;
 
   const handleMouseEnter = (e) => {
     if (isMobile) return;
@@ -399,33 +291,30 @@ const HeroSection = () => {
   return (
     <>
       <style jsx>{floatingAnimation}</style>
-      <section style={heroStyles.section}>
-        <div style={heroStyles.backgroundPattern}></div>
+      <section style={styles.section}>
+        <div style={styles.backgroundPattern}></div>
         
-        <div style={getResponsiveStyle(responsiveContainer)}>
+        <div style={styles.container}>
           {/* Left Content */}
-          <div style={getResponsiveStyle(responsiveContent)}>
-            <div 
-              style={heroStyles.badge}
-              className={loaded ? 'animate' : ''}
-            >
+          <div style={styles.content}>
+            <div style={styles.badge} className={loaded ? 'animate' : ''}>
               🎓 School Management Reimagined
             </div>
             
-            <h1 style={heroStyles.title}>
+            <h1 style={styles.title}>
               Transform Your School's<br />
-              <span style={heroStyles.highlight}>Academic Excellence</span> with AI
+              <span style={styles.highlight}>Academic Excellence</span> with AI
             </h1>
             
-            <p style={getResponsiveStyle(responsiveSubtitle)}>
+            <p style={styles.subtitle}>
               Syntra delivers a complete, school-branded platform that revolutionizes 
               CBT exams, academic analytics, and student performance tracking—designed 
               specifically for the Nigerian education system.
             </p>
             
-            <div style={getResponsiveStyle(responsiveCtaButtons)}>
+            <div style={styles.ctaButtons}>
               <button
-                style={getResponsiveStyle(responsivePrimaryButton)}
+                style={{ ...styles.buttonBase, ...styles.primaryButton }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onClick={() => window.open('#demo', '_self')}
@@ -437,12 +326,12 @@ const HeroSection = () => {
               </button>
               
               <button
-                style={getResponsiveStyle(responsiveSecondaryButton)}
+                style={{ ...styles.buttonBase, ...styles.secondaryButton }}
                 onMouseEnter={handleSecondaryHover}
                 onMouseLeave={handleSecondaryLeave}
                 onClick={() => window.open('#video', '_self')}
               >
-                <svg style={heroStyles.playIcon} fill="currentColor" viewBox="0 0 24 24">
+                <svg style={styles.playIcon} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
                 Watch Platform Tour
@@ -450,18 +339,18 @@ const HeroSection = () => {
             </div>
             
             {/* Trust Metrics */}
-            <div style={getResponsiveStyle(responsiveMetricsGrid)}>
-              <div style={heroStyles.metric}>
-                <div style={heroStyles.metricValue}>100%</div>
-                <div style={heroStyles.metricLabel}>School Ownership</div>
+            <div style={styles.metricsGrid}>
+              <div style={styles.metric}>
+                <div style={styles.metricValue}>100%</div>
+                <div style={styles.metricLabel}>School Ownership</div>
               </div>
-              <div style={heroStyles.metric}>
-                <div style={heroStyles.metricValue}>24/7</div>
-                <div style={heroStyles.metricLabel}>Student Access</div>
+              <div style={styles.metric}>
+                <div style={styles.metricValue}>24/7</div>
+                <div style={styles.metricLabel}>Student Access</div>
               </div>
-              <div style={heroStyles.metric}>
-                <div style={heroStyles.metricValue}>0%</div>
-                <div style={heroStyles.metricLabel}>Monthly Fees</div>
+              <div style={styles.metric}>
+                <div style={styles.metricValue}>0%</div>
+                <div style={styles.metricLabel}>Monthly Fees</div>
               </div>
             </div>
           </div>
@@ -469,7 +358,7 @@ const HeroSection = () => {
           {/* Right Image with Floating Card */}
           <div
             style={{
-              ...getResponsiveStyle(responsiveImageContainer),
+              ...styles.imageContainer,
               transform: isMobile 
                 ? 'perspective(1000px) rotateY(0deg) scale(1)'
                 : `perspective(1000px) rotateY(-5deg) translateX(${mousePosition.x}px) translateY(${mousePosition.y}px)`,
@@ -489,47 +378,18 @@ const HeroSection = () => {
             </div>
             
             {/* Floating Card */}
-            {!isMobile && (
-              <div style={getResponsiveStyle(responsiveFloatingCard)}>
-                <div style={heroStyles.cardTitle}>
-                  <svg style={heroStyles.icon} fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
-                  </svg>
-                  Real-time Analytics
-                </div>
-                <p style={heroStyles.cardText}>
-                  Monitor student performance, track progress, and generate 
-                  comprehensive reports with one click.
-                </p>
+            <div style={styles.floatingCard}>
+              <div style={styles.cardTitle}>
+                <svg style={styles.icon} fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                </svg>
+                Real-time Analytics
               </div>
-            )}
-            
-            {/* Mobile version of floating card */}
-            {isMobile && (
-              <div style={{
-                ...heroStyles.floatingCard,
-                position: 'relative',
-                right: 'auto',
-                bottom: 'auto',
-                marginTop: '20px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '100%',
-                maxWidth: '300px',
-                animation: 'none',
-              }}>
-                <div style={heroStyles.cardTitle}>
-                  <svg style={heroStyles.icon} fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
-                  </svg>
-                  Real-time Analytics
-                </div>
-                <p style={heroStyles.cardText}>
-                  Monitor student performance, track progress, and generate 
-                  comprehensive reports with one click.
-                </p>
-              </div>
-            )}
+              <p style={styles.cardText}>
+                Monitor student performance, track progress, and generate 
+                comprehensive reports with one click.
+              </p>
+            </div>
           </div>
         </div>
         
