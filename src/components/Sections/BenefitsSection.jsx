@@ -96,11 +96,12 @@ const BenefitsSection = () => {
     { number: '1', label: 'Unified System Platform' },
   ];
 
+  // Updated ROI metrics to be less conclusive and more realistic
   const roiMetrics = [
-    { value: '15+', description: 'Hours Saved Weekly' },
-    { value: '40-60%', description: 'Reduced Admin Costs' },
-    { value: '100%', description: 'Staff Adoption Rate' },
-    { value: '1 Week', description: 'Implementation Time' },
+    { value: '10-15x', description: 'Time Saved on Results Processing' },
+    { value: '40-60%', description: 'Reduction in Paper & Printing Costs' },
+    { value: '1 Week', description: 'Average Implementation Time' },
+    { value: '24/7', description: 'System Accessibility' },
   ];
 
   // Styles with responsive variations
@@ -397,6 +398,11 @@ const BenefitsSection = () => {
     
     roiMetric: {
       textAlign: 'center',
+      padding: isSmallMobile ? '15px 10px' : '20px 15px',
+      borderRadius: '12px',
+      backgroundColor: 'rgba(75, 83, 32, 0.03)',
+      border: '1px solid rgba(75, 83, 32, 0.08)',
+      transition: 'all 0.3s ease',
     },
     
     roiValue: {
@@ -498,6 +504,16 @@ const BenefitsSection = () => {
       height: '6px',
       background: 'linear-gradient(135deg, #4B5320 0%, #6B7C3A 100%)',
       zIndex: 1,
+    },
+    
+    infoNote: {
+      fontSize: isSmallMobile ? '11px' : '12px',
+      color: '#7E8C9E',
+      fontStyle: 'italic',
+      textAlign: 'center',
+      marginTop: isSmallMobile ? '15px' : '20px',
+      padding: isSmallMobile ? '0 10px' : '0',
+      lineHeight: '1.4',
     }
   };
 
@@ -626,16 +642,27 @@ const BenefitsSection = () => {
         <div style={styles.roiCalculator}>
           <div style={styles.roiHeader}>
             <h3 style={styles.roiTitle}>
-              Quantifiable ROI Impact
+              Measurable Impact & ROI
             </h3>
             <p style={styles.roiSubtitle}>
-              Measurable benefits that deliver tangible value to your institution
+              Realistic benefits based on feedback from schools using our platform
             </p>
           </div>
           
           <div style={styles.roiGrid}>
             {roiMetrics.map((metric, index) => (
-              <div key={index} style={styles.roiMetric}>
+              <div 
+                key={index} 
+                style={{
+                  ...styles.roiMetric,
+                  transform: hoveredMetric === index + impactMetrics.length ? 'translateY(-3px)' : 'translateY(0)',
+                  boxShadow: hoveredMetric === index + impactMetrics.length 
+                    ? '0 8px 20px rgba(75, 83, 32, 0.1)' 
+                    : '0 4px 12px rgba(0,0,0,0.05)',
+                }}
+                onMouseEnter={() => handleMetricMouseEnter(index + impactMetrics.length)}
+                onMouseLeave={handleMetricMouseLeave}
+              >
                 <div style={styles.roiValue}>
                   {metric.value}
                 </div>
@@ -645,23 +672,24 @@ const BenefitsSection = () => {
               </div>
             ))}
           </div>
+          
+          <div style={styles.infoNote}>
+            *Actual savings may vary based on school size and current processes
+          </div>
         </div>
 
-        {/* COMPACT CTA SECTION */}
+        {/* UPDATED CTA SECTION */}
         <div style={styles.ctaSection}>
           <div style={styles.ctaCard}>
             <div style={styles.accentBg}></div>
-            <div style={styles.ctaBadge}>
-              SCHEDULE DEMO
-            </div>
             
             <div style={styles.ctaContent}>
               <h3 style={styles.ctaTitle}>
-                Ready to Transform Your Institution?
+                See How Syntra Can Work for Your School
               </h3>
               
               <p style={styles.ctaText}>
-                Join forward-thinking schools that have automated academic management with Syntra
+                Get a personalized walkthrough and discover how we can address your specific needs
               </p>
               
               <button
@@ -683,8 +711,12 @@ const BenefitsSection = () => {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" />
                 </svg>
-                Schedule Personalized Consultation
+                Get Personalized Consultation
               </button>
+              
+              <div style={styles.infoNote}>
+                No obligation · See platform in action · Ask specific questions
+              </div>
             </div>
           </div>
         </div>

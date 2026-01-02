@@ -350,7 +350,7 @@ const HeroSection = () => {
               </div>
               <div style={styles.metric}>
                 <div style={styles.metricValue}>0%</div>
-                <div style={styles.metricLabel}>Monthly Fees</div>
+                <div style={styles.metricLabel}>Complexity</div>
               </div>
             </div>
           </div>

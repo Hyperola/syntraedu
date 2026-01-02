@@ -437,7 +437,7 @@ const ContactSection = () => {
                   style={styles.input}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  placeholder="John Adebayo"
+                  placeholder="John Doe"
                 />
               </div>
 
@@ -455,7 +455,7 @@ const ContactSection = () => {
                   style={styles.input}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  placeholder="Royal Academy"
+                  placeholder="Syntra Academy"
                 />
               </div>
 
@@ -473,7 +473,7 @@ const ContactSection = () => {
                   style={styles.input}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  placeholder="principal@yourschool.edu.ng"
+                  placeholder="Johndoe@yourschool.edu.ng"
                 />
               </div>
 
@@ -491,7 +491,7 @@ const ContactSection = () => {
                   style={styles.input}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  placeholder="+234 800 000 0000"
+                  placeholder="+234 000 000 0000"
                 />
               </div>
 

@@ -71,24 +71,24 @@ const TrustSection = () => {
   ];
 
   const metrics = [
-    { value: '50+', label: 'Trusted Schools' },
-    { value: '100k+', label: 'Exams Processed' },
+    { value: '15+', label: 'Hours Saved Weekly' },
+    { value: '95%', label: 'Faster Processing' },
     { value: '99.9%', label: 'System Reliability' },
     { value: '24/7', label: 'Support Available' },
   ];
 
   const testimonials = [
     {
-      quote: "Our teachers gained 15+ hours weekly back from manual marking. Results processing went from weeks to hours.",
-      author: 'Principal Adebayo',
-      role: 'Greenfield College',
-      initial: 'A',
+      quote: "The automated grading system has streamlined our assessment process significantly. Our administrative team now focuses on what truly matters - student development.",
+      author: 'Dr. Sarah Johnson',
+      role: 'Academic Director',
+      initial: 'S',
     },
     {
-      quote: "The branded system improved our school's professional image with parents. Automated reports are transformative.",
-      author: 'Mrs. Chukwu',
-      role: 'Royal Academy',
-      initial: 'C',
+      quote: "Implementation was smooth and the support team was excellent. The system handles our exam management efficiently and reliably.",
+      author: 'Michael Thompson',
+      role: 'School Administrator',
+      initial: 'M',
     },
   ];
 
