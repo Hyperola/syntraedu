@@ -71,7 +71,7 @@ const TrustSection = () => {
   ];
 
   const metrics = [
-    { value: '15+', label: 'Hours Saved Weekly' },
+    { value: '90%+', label: 'Time Efficiency' },
     { value: '95%', label: 'Faster Processing' },
     { value: '99.9%', label: 'System Reliability' },
     { value: '24/7', label: 'Support Available' },

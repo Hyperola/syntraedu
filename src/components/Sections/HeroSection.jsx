@@ -368,7 +368,7 @@ const HeroSection = () => {
           >
             <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '20px', overflow: 'hidden' }}>
               <Image
-                src="/students.jpeg"
+                src="/students.png"
                 alt="Syntra Platform Dashboard Preview"
                 fill
                 style={{ objectFit: 'cover' }}
