@@ -491,7 +491,7 @@ const ContactSection = () => {
                   style={styles.input}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  placeholder="+234 000 000 0000"
+                  placeholder="+000 000 000 0000"
                 />
               </div>
 

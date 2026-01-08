@@ -68,7 +68,7 @@ const BenefitsSection = () => {
       subtitle: 'Exam Officers & Subject Teachers',
       icon: '👩‍🏫',
       benefits: [
-        'Save 10+ hours weekly on marking',
+        'Save significant amount of time weekly on marking',
         'Easy test creation & question bank',
         'Focus on teaching, not paperwork',
         'Track student performance trends',
